@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "cleaner",
+    "slug": "snack-103161ef-8501-41a2-b76f-edbb4da4927a",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/TJ276.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
