@@ -1,40 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Image, Button } from 'react-native';
+import { Text, View, StyleSheet, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Card } from 'react-native-paper';
+
+let s = require('../js/scan_image.js')
 
 export default function Main() {
   const [BTNstart, setBTNstart] = useState(false)
+  const onPress = () => setBTNstart(!BTNstart)
 
-  return (
-    <View>
-      { renderView() }
-    </View>
-  );
+  return renderView();
   
   function renderView(){
     return (
-      <View>
-        <Card>
-          <View style={styles.container}>
-            <Text style={styles.paragraph}>
-              Access to Start Scanning
-            </Text>
-
-            <Image style={styles.logo} source={require('../assets/TJ276.png')} />
-            <Button
-              onPress={() => {
-                setBTNstart(!BTNstart)
-                alert(BTNstart);
-              }}
-              title="Start"
-            />
-          </View>
-        </Card>
-      </View>
+      <Card>
+        { (BTNstart)?
+            (<View style={styles.container}>
+              <Text style={styles.paragraph}>Scanning...</Text>
+              {s.a()}
+              <ActivityIndicator
+                animating = {BTNstart}
+                color = '#bc2b78'
+                size = "large"
+                style = {styles.activityIndicator}
+              />
+            </View>)
+          :
+            (<View style={styles.container}>
+              <Text style={styles.paragraph}>Press Image to Start Scanning</Text>
+              <TouchableOpacity onPress={onPress}>
+                <Image style={styles.logo} source={require('../assets/TJ276.png')} />
+              </TouchableOpacity>
+            </View>)
+        }
+      </Card>
     )
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -50,7 +51,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   logo: {
-    height: 128,
-    width: 128,
+    height: 200,
+    width: 200,
   },
+  activityIndicator: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
