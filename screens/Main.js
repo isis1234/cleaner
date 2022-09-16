@@ -24,8 +24,8 @@ export default function Main({ route, navigation }) {
     })
     .then(async (x) => { 
       setImage({ total:x.totalCount, processed:0 })
-      for(let i=0; i<100; i++){
-      // for(let i=0; i<x.totalCount; i++){
+      // for(let i=0; i<100; i++){
+      for(let i=0; i<x.totalCount; i++){
         await FileSystem.copyAsync({ from: x.assets[i].uri, to: FileSystem.cacheDirectory })
         const dirInfo = await FileSystem.getInfoAsync(FileSystem.cacheDirectory)
         x.assets[i].size = dirInfo.size
