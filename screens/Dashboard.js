@@ -2,39 +2,74 @@
 // https://aboutreact.com/custom-navigation-drawer-sidebar-with-image-and-icon-in-menu-options/
 
 import * as React from 'react';
-import { Button, View, Text, StyleSheet, Image } from 'react-native';
+import { Button, View, Text, StyleSheet, Image, SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import { Card } from 'react-native-paper';
 
 const Dashboard = ({ route, navigation }) => {
   let { params } = route
-  // console.log(params)
 
   return (
-    <View style={styles.overview}>
-      <View style={styles.container}>
-        {/*<Text
-          style={{
-            fontSize: 25,
-            textAlign: 'center',
-            marginBottom: 16,
-          }}>
-          Dashboard
-        </Text>*/}
-        {/*<Button
-          title="Go to Third Page"
-          onPress={() => navigation.navigate('ThirdPage')}
-        />*/}
-        <Image style={{ width: 250, height: 250 }} source={params.asset.assets[0]} />
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.overview}>
+          <Card>
+            <View style={styles.container}>
+              <Text
+                style={{
+                  fontSize: 25,
+                  marginBottom: 16,
+                  margin: 24,
+                  marginTop: 0,
+                  fontWeight: 'bold',
+                }}>
+                Top 100 Lowest
+              </Text>
+              <Image style={{ width: 250, height: 250 }} source={params.lowest_size[0]} />
+            </View>
+          </Card>
 
-      </View>
+          <Card>
+            <View style={styles.container}>
+              <Text
+                style={{
+                  fontSize: 25,
+                  marginBottom: 16,
+                  margin: 24,
+                  marginTop: 0,
+                  fontWeight: 'bold',
+                }}>
+                Top 100 Largest
+              </Text>
+              <Image style={{ width: 250, height: 250 }} source={params.largest_size[0]} />
+            </View>
+          </Card>
+
+          <Card>
+            <View style={styles.container}>
+              <Text
+                style={{
+                  fontSize: 25,
+                  marginBottom: 16,
+                  margin: 24,
+                  marginTop: 0,
+                  fontWeight: 'bold',
+                }}>
+                Screenshot ({params.screenshot.length})
+              </Text>
+              <Image style={{ width: 250, height: 250 }} source={params.screenshot[0]} />
+            </View>
+          </Card>
+        </View>
+      </ScrollView>
       <View>
         <Text style={styles.footerText}>
-          Custom React Navigate Drawer
+          © 2022 - Made with ❤️ by Yu.
         </Text>
         <Text style={styles.footerText}>
-          www.aboutreact.com
+          https://isis1234.github.io/isis1234_portfolio
         </Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -47,6 +82,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 24,
+    paddingTop: StatusBar.currentHeight,
   },
   footerText: {
     fontSize: 18, 

@@ -32,8 +32,8 @@
       [
         "expo-media-library",
         {
-          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
-          "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
+          "photosPermission": "Allow Cleaner to access your photos.",
+          "savePhotosPermission": "Allow Cleaner to save photos.",
           "isAccessMediaLocationEnabled": true
         }
       ]

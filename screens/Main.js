@@ -13,6 +13,8 @@ export default function Main({ route, navigation }) {
 
   // Start process
   useEffect(() => { if(BTNstart){
+    console.log("Start Process", new Date()*1)
+    setImage({ total:0, processed:0 })
     requestPermission()
     if(status.accessPrivileges == "none") return;
     
@@ -22,19 +24,24 @@ export default function Main({ route, navigation }) {
     })
     .then(async (x) => { 
       setImage({ total:x.totalCount, processed:0 })
-      console.log("============", x.totalCount, x.assets[0]) 
-      // for(let i=0; i<10; i++){
-      for(let i=0; i<x.totalCount; i++){
-        const dirInfo = await FileSystem.getInfoAsync(x.assets[i].uri)
-        if(dirInfo.size) console.log(dirInfo)
-        x.assets[0].size="A"
+      for(let i=0; i<100; i++){
+      // for(let i=0; i<x.totalCount; i++){
+        await FileSystem.copyAsync({ from: x.assets[i].uri, to: FileSystem.cacheDirectory })
+        const dirInfo = await FileSystem.getInfoAsync(FileSystem.cacheDirectory)
+        x.assets[i].size = dirInfo.size
         setImage({ total:x.totalCount, processed:i+1 })
       }
-      navigation.navigate('Dashboard', { asset: x })
+      (x.assets).sort((a, b) => { return a.size - b.size })
+      console.log("============", x.totalCount, x.assets[0]) 
+      console.log("End Process", new Date()*1)
+      navigation.navigate('Dashboard', { 
+        lowest_size: (x.assets).sort((a, b) => { return a.size - b.size }).slice(0,100),
+        largest_size: (x.assets).sort((a, b) => { return b.size - a.size }).slice(0,100),
+        screenshot: (x.assets).filter((x) => { return x.mediaSubtypes.includes("screenshot") })
+      })
       setBTNstart(false)
     })
   } }, [ BTNstart ])
-  
   return renderView()
   
   function renderView(){
