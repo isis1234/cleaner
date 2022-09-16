@@ -4,19 +4,52 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native'
 import Constants from 'expo-constants';
 
-import Main from './components/Main';
+import Main from './screens/Main';
+import Dashboard from './screens/Dashboard';
 
 export default function App() {
   const Stack = createStackNavigator()
   return (
-    <NavigationContainer style={styles.container}>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={Main} />
-        {/*<Stack.Screen name="Notifications" component={Notifications} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Settings" component={Settings} />*/}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View  style={styles.container}>
+      <NavigationContainer>
+        <Stack.Navigator  initialRouteName="Main">
+          <Stack.Screen 
+            name="Main" 
+            component={Main} 
+            options={{
+              title: 'Main', //Set Header Title
+              // headerLeft: () => (
+              //   <NavigationDrawerStructure navigationProps={navigation} />
+              // ),
+              headerStyle: {
+                backgroundColor: '#3498DB', //Set Header color
+              },
+              headerTintColor: '#fff', //Set Header text color
+              headerTitleStyle: {
+                fontWeight: 'bold', //Set Header text style
+              },
+            }}
+          />
+          <Stack.Screen 
+            name="Dashboard" 
+            component={Dashboard}
+            options={{
+              title: 'Dashboard', //Set Header Title
+              // headerLeft: () => (
+              //   <NavigationDrawerStructure navigationProps={navigation} />
+              // ),
+              headerStyle: {
+                backgroundColor: '#3498DB', //Set Header color
+              },
+              headerTintColor: '#fff', //Set Header text color
+              headerTitleStyle: {
+                fontWeight: 'bold', //Set Header text style
+              },
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </View>
   );
 }
 
