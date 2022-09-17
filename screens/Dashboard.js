@@ -1,97 +1,105 @@
-// Custom Navigation Drawer / Sidebar with Image and Icon in Menu Options
-// https://aboutreact.com/custom-navigation-drawer-sidebar-with-image-and-icon-in-menu-options/
-
-import * as React from 'react';
-import { Button, View, Text, StyleSheet, Image, SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Image, SafeAreaView, ScrollView } from 'react-native';
 import { Card } from 'react-native-paper';
+import * as MediaLibrary from 'expo-media-library';
 
 const Dashboard = ({ route, navigation }) => {
   let { params } = route
+  const [lowestImage, setLowestImage] = useState([])
+  const [largestImage, setLargestImage] = useState([])
+  const [screenshotImage, setScreenshotImage] = useState([])
+  useEffect(() => { 
+    Promise.all([
+      MediaLibrary.getAssetInfoAsync(params.lowest_size[0].id), 
+      MediaLibrary.getAssetInfoAsync(params.lowest_size[1].id), 
+      MediaLibrary.getAssetInfoAsync(params.lowest_size[2].id),
+      MediaLibrary.getAssetInfoAsync(params.lowest_size[3].id),
+    ]).then((arr) => {
+      let temp = []
+      arr.forEach((img) => { temp.push(img) })
+      setLowestImage(temp)
+    });
+  }, [ params.lowest_size ])
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.overview}>
-          <Card>
-            <View style={styles.container}>
-              <Text
-                style={{
-                  fontSize: 25,
-                  marginBottom: 16,
-                  margin: 24,
-                  marginTop: 0,
-                  fontWeight: 'bold',
-                }}>
-                Top 100 Lowest
-              </Text>
-              <Image style={{ width: 250, height: 250 }} source={params.lowest_size[0]} />
-            </View>
-          </Card>
+  useEffect(() => { 
+    Promise.all([
+      MediaLibrary.getAssetInfoAsync(params.largest_size[0].id), 
+      MediaLibrary.getAssetInfoAsync(params.largest_size[1].id), 
+      MediaLibrary.getAssetInfoAsync(params.largest_size[2].id),
+      MediaLibrary.getAssetInfoAsync(params.largest_size[3].id),
+    ]).then((arr) => {
+      let temp = []
+      arr.forEach((img) => { temp.push(img) })
+      setLargestImage(temp)
+    });
+  }, [ params.largest_size ])
 
-          <Card>
-            <View style={styles.container}>
-              <Text
-                style={{
-                  fontSize: 25,
-                  marginBottom: 16,
-                  margin: 24,
-                  marginTop: 0,
-                  fontWeight: 'bold',
-                }}>
-                Top 100 Largest
-              </Text>
-              <Image style={{ width: 250, height: 250 }} source={params.largest_size[0]} />
-            </View>
-          </Card>
+  useEffect(() => { 
+    Promise.all([
+      MediaLibrary.getAssetInfoAsync(params.screenshot[0].id), 
+      MediaLibrary.getAssetInfoAsync(params.screenshot[1].id), 
+      MediaLibrary.getAssetInfoAsync(params.screenshot[2].id),
+      MediaLibrary.getAssetInfoAsync(params.screenshot[3].id),
+    ]).then((arr) => {
+      let temp = []
+      arr.forEach((img) => { temp.push(img) })
+      setScreenshotImage(temp)
+    });
+  }, [ params.screenshot ])
 
-          <Card>
-            <View style={styles.container}>
-              <Text
-                style={{
-                  fontSize: 25,
-                  marginBottom: 16,
-                  margin: 24,
-                  marginTop: 0,
-                  fontWeight: 'bold',
-                }}>
-                Screenshot ({params.screenshot.length})
-              </Text>
-              <Image style={{ width: 250, height: 250 }} source={params.screenshot[0]} />
-            </View>
-          </Card>
+  return (<SafeAreaView style={styles.overview}>
+    <ScrollView>
+      <Card style={styles.card_container}>
+        <Text style={styles.card_title}>Top 100 Lowest</Text>
+        <View style={styles.card_image_preview}>
+          <Image style={{ width: 90, height: 90 }} source={lowestImage[0]} />
+          <Image style={{ width: 90, height: 90 }} source={lowestImage[1]} />
+          <Image style={{ width: 90, height: 90 }} source={lowestImage[2]} />
+          <Image style={{ width: 90, height: 90 }} source={lowestImage[3]} />
         </View>
-      </ScrollView>
-      <View>
-        <Text style={styles.footerText}>
-          © 2022 - Made with ❤️ by Yu.
-        </Text>
-        <Text style={styles.footerText}>
-          https://isis1234.github.io/isis1234_portfolio
-        </Text>
-      </View>
-    </SafeAreaView>
-  );
+      </Card>
+
+      <Card style={styles.card_container}>
+        <Text style={styles.card_title}>Top 100 Largest</Text>
+        <View style={styles.card_image_preview}>
+          <Image style={{ width: 90, height: 90 }} source={largestImage[0]} />
+          <Image style={{ width: 90, height: 90 }} source={largestImage[1]} />
+          <Image style={{ width: 90, height: 90 }} source={largestImage[2]} />
+          <Image style={{ width: 90, height: 90 }} source={largestImage[3]} />
+        </View>
+      </Card>
+
+      <Card style={styles.card_container}>
+        <Text style={styles.card_title}>Screenshot ({params.screenshot.length})</Text>
+        <View style={styles.card_image_preview}>
+          <Image style={{ width: 90, height: 90 }} source={screenshotImage[0]} />
+          <Image style={{ width: 90, height: 90 }} source={screenshotImage[1]} />
+          <Image style={{ width: 90, height: 90 }} source={screenshotImage[2]} />
+          <Image style={{ width: 90, height: 90 }} source={screenshotImage[3]} />
+        </View>
+      </Card>
+    </ScrollView>
+  </SafeAreaView>);
 };
 
 export default Dashboard;
 const styles = StyleSheet.create({
   overview: {
-    flex: 1, padding: 16
+    flex: 1, 
+    padding: 16,
   },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+
+  card_container: {
     padding: 24,
-    paddingTop: StatusBar.currentHeight,
+    flex: 1,
+    marginTop: 10,
   },
-  footerText: {
-    fontSize: 18, 
-    textAlign: 'center', 
-    color: 'grey'
+  card_title: {
+    fontSize: 25,
+    fontWeight: 'bold',
   },
-  logo: {
-    height: 200,
-    width: 200,
+  card_image_preview: {
+    marginTop: 10,
+    flexDirection: 'row',
   },
 });

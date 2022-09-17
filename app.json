@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "cleaner",
-    "slug": "snack-103161ef-8501-41a2-b76f-edbb4da4927a",
+    "slug": "cleaner",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/TJ276.png",
@@ -31,8 +31,10 @@
       },
       "permissions": [
         "android.permission.READ_EXTERNAL_STORAGE",
-        "android.permission.WRITE_EXTERNAL_STORAGE"
-      ]
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "true"
+      ],
+      "package": "com.isis1234.cleaner"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -43,9 +45,14 @@
         {
           "photosPermission": "Allow Cleaner to access your photos.",
           "savePhotosPermission": "Allow Cleaner to save photos.",
-          "isAccessMediaLocationEnabled": true
+          "isAccessMediaLocationEnabled": "true"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "4c5f29ac-02fb-41a2-86a2-1108d97f34c2"
+      }
+    }
   }
 }
