@@ -31,8 +31,8 @@ export default function Main({ route, navigation }) {
     })
     .then(async (x) => { 
       setImage({ total:x.totalCount, processed:0 })
-      // for(let i=0; i<100; i++){
-      for(let i=0; i<x.totalCount; i++){
+      for(let i=0; i<100; i++){
+      // for(let i=0; i<x.totalCount; i++){
         await FileSystem.copyAsync({ from: x.assets[i].uri, to: FileSystem.cacheDirectory })
         const dirInfo = await FileSystem.getInfoAsync(FileSystem.cacheDirectory)
         x.assets[i].size = dirInfo.size
@@ -82,7 +82,7 @@ export default function Main({ route, navigation }) {
               />
               <Text style={styles.card_text}>Total: {image.total}</Text>
               <Text style={styles.card_text}>Scanning: {image.processed} / {image.total} ({parseInt(image.processed/image.total*100)}%)</Text>
-              <Text style={styles.card_text}>Estimated Time: {image.total*50/(60*1000)}min</Text>
+              <Text style={styles.card_text}>Estimated Time: {parseInt(image.total*50/(60*1000))}min</Text>
               <Text style={styles.card_text}>Speed: 50ms</Text>
               <Button onPress={cancel} title="Cancel"/>
             </View>)

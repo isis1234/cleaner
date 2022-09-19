@@ -8,6 +8,8 @@ import Constants from 'expo-constants';
 
 import Main from './screens/Main';
 import Dashboard from './screens/Dashboard';
+import Lowest from './screens/Lowest';
+import Largest from './screens/Largest';
 
 export default function App() {
   const Stack = createStackNavigator()
@@ -30,6 +32,42 @@ export default function App() {
         component={Dashboard}
         options={{
           title: 'Dashboard', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#3498DB', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: styles.screen_header_title,
+        }}
+      />
+      <Stack.Screen 
+        name="Lowest" 
+        component={Lowest}
+        options={{
+          title: 'Top 100 Lowest', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#3498DB', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: styles.screen_header_title,
+        }}
+      />
+      <Stack.Screen 
+        name="Largest" 
+        component={Largest}
+        options={{
+          title: 'Top 100 Largest', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#3498DB', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: styles.screen_header_title,
+        }}
+      />
+      <Stack.Screen 
+        name="Screenshots" 
+        component={Largest}
+        options={{
+          title: 'Screenshots', //Set Header Title
           headerStyle: {
             backgroundColor: '#3498DB', //Set Header color
           },
