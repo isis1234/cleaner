@@ -29,6 +29,10 @@ const SimplePhotoSelector = ({ route, navigation }) => {
   useEffect(()=>{
     let table = []
     let index = (page-1) * 8
+
+    // get image object
+
+    // phase as table
     for(let row=0; row<4; row++){
       let r = []
       if(index < params.img.length)
@@ -70,7 +74,7 @@ const SimplePhotoSelector = ({ route, navigation }) => {
         renderItem={renderNextPage}
         ListFooterComponent={renderEnd}
         ListEmptyComponent={renderEmpty}
-        onEndReachedThreshold={2}
+        onEndReachedThreshold={0}
         onEndReached={() => { setPage(page + 1) }}
       />
       <Text style={styles.footer}>{params.img.length} Photos | 0 Selected</Text>
