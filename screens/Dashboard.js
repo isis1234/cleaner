@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, SafeAreaView, ScrollView, TouchableHighlight } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableHighlight } from 'react-native';
 import { Card } from 'react-native-paper';
 import * as MediaLibrary from 'expo-media-library';
 
@@ -9,9 +9,24 @@ const Dashboard = ({ route, navigation }) => {
   const [largestImage, setLargestImage] = useState([])
   const [screenshotImage, setScreenshotImage] = useState([])
 
-  function routeLowest(){ navigation.navigate('Lowest', { img: params.lowest_size }) }
-  function routeLargest(){ navigation.navigate('Largest', { img: params.largest_size }) }
-  function routeScreenshots(){ navigation.navigate('Screenshots', { img: params.screenshot }) }
+  function routeLowest(){ 
+    navigation.navigate('SimplePhotoSelector', { 
+      img: params.lowest_size, 
+      screen_title: "Top 100 Lowest" 
+    }) 
+  }
+  function routeLargest(){ 
+    navigation.navigate('SimplePhotoSelector', { 
+      img: params.largest_size, 
+      screen_title: "Top 100 Largest" 
+    }) 
+  }
+  function routeScreenshots(){ 
+    navigation.navigate('SimplePhotoSelector', { 
+      img: params.screenshot, 
+      screen_title: "Screenshots" 
+    }) 
+  }
   useEffect(() => { 
     Promise.all([
       MediaLibrary.getAssetInfoAsync(params.lowest_size[0].id), 
@@ -53,12 +68,7 @@ const Dashboard = ({ route, navigation }) => {
 
   return (<View>
     <ScrollView>
-      <TouchableHighlight
-        activeOpacity={0.6}
-        underlayColor="#999999"
-        onPress={routeLowest}
-        style={styles.card_touchable}
-      >
+      <TouchableHighlight activeOpacity={0.6} underlayColor="#999999" onPress={routeLowest} style={styles.card_touchable}>
         <Card style={styles.card_container}>
           <Text style={styles.card_title}>Top 100 Lowest</Text>
           <View style={styles.card_image_preview}>
@@ -70,12 +80,7 @@ const Dashboard = ({ route, navigation }) => {
         </Card>
       </TouchableHighlight>
 
-      <TouchableHighlight
-        activeOpacity={0.6}
-        underlayColor="#999999"
-        onPress={routeLargest}
-        style={styles.card_touchable}
-      >
+      <TouchableHighlight activeOpacity={0.6} underlayColor="#999999" onPress={routeLargest} style={styles.card_touchable}>
         <Card style={styles.card_container}>
           <Text style={styles.card_title}>Top 100 Largest</Text>
           <View style={styles.card_image_preview}>
@@ -87,12 +92,7 @@ const Dashboard = ({ route, navigation }) => {
         </Card>
       </TouchableHighlight>
 
-      <TouchableHighlight
-        activeOpacity={0.6}
-        underlayColor="#999999"
-        onPress={routeScreenshots}
-        style={styles.card_touchable}
-      >
+      <TouchableHighlight activeOpacity={0.6} underlayColor="#999999" onPress={routeScreenshots} style={styles.card_touchable}>
         <Card style={styles.card_container}>
           <Text style={styles.card_title}>Screenshots ({params.screenshot.length})</Text>
           <View style={styles.card_image_preview}>
@@ -104,12 +104,7 @@ const Dashboard = ({ route, navigation }) => {
         </Card>
       </TouchableHighlight>
 
-      <TouchableHighlight
-        activeOpacity={0.6}
-        underlayColor="#999999"
-        onPress={() => {}}
-        style={styles.card_touchable}
-      >
+      <TouchableHighlight activeOpacity={0.6} underlayColor="#999999" onPress={() => {}} style={styles.card_touchable}>
         <Card style={styles.card_container}>
           <Text style={styles.card_title}>Duplicates</Text>
           <View style={styles.card_image_preview}>
@@ -122,12 +117,7 @@ const Dashboard = ({ route, navigation }) => {
         </Card>
       </TouchableHighlight>
 
-      <TouchableHighlight
-        activeOpacity={0.6}
-        underlayColor="#999999"
-        onPress={() => {}}
-        style={styles.card_touchable}
-      >
+      <TouchableHighlight activeOpacity={0.6} underlayColor="#999999" onPress={() => {}} style={styles.card_touchable}>
         <Card style={styles.card_container}>
           <Text style={styles.card_title}>75% Similar</Text>
           <View style={styles.card_image_preview}>

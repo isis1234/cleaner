@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Image, ActivityIndicator, TouchableOpacity, Button, SafeAreaView } from 'react-native';
+import { Text, View, StyleSheet, Image, ActivityIndicator, TouchableOpacity, Button } from 'react-native';
 import { Card } from 'react-native-paper';
 import * as MediaLibrary from 'expo-media-library';
 import * as FileSystem from 'expo-file-system';
@@ -48,7 +48,7 @@ export default function Main({ route, navigation }) {
             mediaSubtypes: y.mediaSubtypes,
           }
         })
-      console.log("============", x.totalCount, x.assets[0]) 
+      // console.log("============", x.totalCount, x.assets[0]) 
       console.log("End Process", new Date()*1)
       navigation.navigate('Dashboard', { 
         lowest_size: (x.assets).slice(0,100),
@@ -62,7 +62,7 @@ export default function Main({ route, navigation }) {
   return renderView()
   
   function renderView(){
-    return (<SafeAreaView style={styles.overview}>
+    return (<View style={styles.overview}>
       <View>
         <View style={styles.logo_container}>
           <TouchableOpacity onPress={onPress}>
@@ -96,7 +96,7 @@ export default function Main({ route, navigation }) {
         <Text style={styles.footerText}>© 2022 - Made with ❤️ by Yu.</Text>
         <Text style={styles.footerText}>https://isis1234.github.io/isis1234_portfolio</Text>
       </View>
-    </SafeAreaView>)
+    </View>)
   }
 }
 

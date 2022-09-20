@@ -10,10 +10,9 @@ export default function EditableImage(props) {
       setImageScourse(x)
     })
   }, [ props.image_id ])
-
   return (
     <View style={styles.overview}>
-      <Image source={ImageSource} style={styles.image}/>
+      <Image source={ImageSource} style={styles.image} key={props.image_id}/>
     </View>
   );
 }
