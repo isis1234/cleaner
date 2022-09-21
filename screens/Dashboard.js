@@ -11,60 +11,22 @@ const Dashboard = ({ route, navigation }) => {
 
   function routeLowest(){ 
     navigation.navigate('SimplePhotoSelector', { 
-      img: params.lowest_size, 
+      imgs: params.lowest_size, 
       screen_title: "Top 100 Lowest" 
     }) 
   }
   function routeLargest(){ 
     navigation.navigate('SimplePhotoSelector', { 
-      img: params.largest_size, 
+      imgs: params.largest_size, 
       screen_title: "Top 100 Largest" 
     }) 
   }
   function routeScreenshots(){ 
     navigation.navigate('SimplePhotoSelector', { 
-      img: params.screenshot, 
+      imgs: params.screenshot, 
       screen_title: "Screenshots" 
     }) 
   }
-  useEffect(() => { 
-    Promise.all([
-      MediaLibrary.getAssetInfoAsync(params.lowest_size[0].id), 
-      MediaLibrary.getAssetInfoAsync(params.lowest_size[1].id), 
-      MediaLibrary.getAssetInfoAsync(params.lowest_size[2].id),
-      MediaLibrary.getAssetInfoAsync(params.lowest_size[3].id),
-    ]).then((arr) => {
-      let temp = []
-      arr.forEach((img) => { temp.push(img) })
-      setLowestImage(temp)
-    });
-  }, [ params.lowest_size ])
-
-  useEffect(() => { 
-    Promise.all([
-      MediaLibrary.getAssetInfoAsync(params.largest_size[0].id), 
-      MediaLibrary.getAssetInfoAsync(params.largest_size[1].id), 
-      MediaLibrary.getAssetInfoAsync(params.largest_size[2].id),
-      MediaLibrary.getAssetInfoAsync(params.largest_size[3].id),
-    ]).then((arr) => {
-      let temp = []
-      arr.forEach((img) => { temp.push(img) })
-      setLargestImage(temp)
-    });
-  }, [ params.largest_size ])
-
-  useEffect(() => { 
-    Promise.all([
-      MediaLibrary.getAssetInfoAsync(params.screenshot[0].id), 
-      MediaLibrary.getAssetInfoAsync(params.screenshot[1].id), 
-      MediaLibrary.getAssetInfoAsync(params.screenshot[2].id),
-      MediaLibrary.getAssetInfoAsync(params.screenshot[3].id),
-    ]).then((arr) => {
-      let temp = []
-      arr.forEach((img) => { temp.push(img) })
-      setScreenshotImage(temp)
-    });
-  }, [ params.screenshot ])
 
   return (<View>
     <ScrollView>
@@ -72,10 +34,10 @@ const Dashboard = ({ route, navigation }) => {
         <Card style={styles.card_container}>
           <Text style={styles.card_title}>Top 100 Lowest</Text>
           <View style={styles.card_image_preview}>
-            <Image style={{ width: 90, height: 90 }} source={lowestImage[0]} />
-            <Image style={{ width: 90, height: 90 }} source={lowestImage[1]} />
-            <Image style={{ width: 90, height: 90 }} source={lowestImage[2]} />
-            <Image style={{ width: 90, height: 90 }} source={lowestImage[3]} />
+            <Image style={{ width: 90, height: 90 }} source={{ uri: params.lowest_size[0].uri, cache: 'only-if-cached' }} />
+            <Image style={{ width: 90, height: 90 }} source={{ uri: params.lowest_size[1].uri, cache: 'only-if-cached' }} />
+            <Image style={{ width: 90, height: 90 }} source={{ uri: params.lowest_size[2].uri, cache: 'only-if-cached' }} />
+            <Image style={{ width: 90, height: 90 }} source={{ uri: params.lowest_size[3].uri, cache: 'only-if-cached' }} />
           </View>
         </Card>
       </TouchableHighlight>
@@ -84,10 +46,10 @@ const Dashboard = ({ route, navigation }) => {
         <Card style={styles.card_container}>
           <Text style={styles.card_title}>Top 100 Largest</Text>
           <View style={styles.card_image_preview}>
-            <Image style={{ width: 90, height: 90 }} source={largestImage[0]} />
-            <Image style={{ width: 90, height: 90 }} source={largestImage[1]} />
-            <Image style={{ width: 90, height: 90 }} source={largestImage[2]} />
-            <Image style={{ width: 90, height: 90 }} source={largestImage[3]} />
+            <Image style={{ width: 90, height: 90 }} source={{ uri: params.largest_size[0].uri, cache: 'only-if-cached' }} />
+            <Image style={{ width: 90, height: 90 }} source={{ uri: params.largest_size[1].uri, cache: 'only-if-cached' }} />
+            <Image style={{ width: 90, height: 90 }} source={{ uri: params.largest_size[2].uri, cache: 'only-if-cached' }} />
+            <Image style={{ width: 90, height: 90 }} source={{ uri: params.largest_size[3].uri, cache: 'only-if-cached' }} />
           </View>
         </Card>
       </TouchableHighlight>
@@ -96,10 +58,10 @@ const Dashboard = ({ route, navigation }) => {
         <Card style={styles.card_container}>
           <Text style={styles.card_title}>Screenshots ({params.screenshot.length})</Text>
           <View style={styles.card_image_preview}>
-            <Image style={{ width: 90, height: 90 }} source={screenshotImage[0]} />
-            <Image style={{ width: 90, height: 90 }} source={screenshotImage[1]} />
-            <Image style={{ width: 90, height: 90 }} source={screenshotImage[2]} />
-            <Image style={{ width: 90, height: 90 }} source={screenshotImage[3]} />
+            <Image style={{ width: 90, height: 90 }} source={{ uri: params.screenshot[0].uri, cache: 'only-if-cached' }} />
+            <Image style={{ width: 90, height: 90 }} source={{ uri: params.screenshot[1].uri, cache: 'only-if-cached' }} />
+            <Image style={{ width: 90, height: 90 }} source={{ uri: params.screenshot[2].uri, cache: 'only-if-cached' }} />
+            <Image style={{ width: 90, height: 90 }} source={{ uri: params.screenshot[3].uri, cache: 'only-if-cached' }} />
           </View>
         </Card>
       </TouchableHighlight>

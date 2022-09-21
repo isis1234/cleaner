@@ -1,67 +1,65 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, SafeAreaView, ScrollView, FlatList } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, FlatList, Dimensions, TouchableHighlight, Button } from 'react-native';
 import { Card } from 'react-native-paper';
 import * as MediaLibrary from 'expo-media-library';
 import EditableImage from '../components/EditableImage';
+import { AntDesign } from '@expo/vector-icons';
 
 const SimplePhotoSelector = ({ route, navigation }) => {
   let { params } = route
   const [imageTable, setImageTable] = useState([[]])
   const [page, setPage] = useState(1)
 
-  // Init Page 1
-  useEffect(() => { 
-    let table = []
-    let index = 0
-    for(let row=0; row<4; row++){
-      let r = []
-      if(index < params.img.length)
-        r.push(params.img[index++])
-
-      if(index < params.img.length)
-        r.push(params.img[index++])
-      table.push(r)
-    }
-    setImageTable(table)
-  }, [ params.img ])
-
-  // On change Page 2~N
   useEffect(()=>{
     let table = []
-    let index = (page-1) * 8
+    let index = (page-1) * 6
 
-    // get image object
+    for(let row=0; row<3; row++){
+      let col = []
+      if(index < params.imgs.length)
+        col.push(params.imgs[index++])
 
-    // phase as table
-    for(let row=0; row<4; row++){
-      let r = []
-      if(index < params.img.length)
-        r.push(params.img[index++])
-
-      if(index < params.img.length)
-        r.push(params.img[index++])
+      if(index < params.imgs.length)
+        col.push(params.imgs[index++])
       
-      if(r.length){ table.push(r) }
+      if(col.length){ table.push(col) }
     }
     if(table.length>1){ setImageTable(imageTable.concat(table)) }
-  }, [ page ])
+  }, [ params.imgss, page ])
 
   function renderNextPage(x){
     return (<View style={styles.image_row} key={x.index}>
       {(x.item).map((img) => {
-        return (<EditableImage image_id={img.id} style={styles.iamge_duration} key={img.id}/>)
+        return (<TouchableHighlight activeOpacity={0.6} underlayColor="#999999" onPress={()=>{console.log("image")}} style={{ flex: 1 }}>
+          <ImageBackground source={{ uri: img.uri, cache: 'only-if-cached' }} style={styles.image} key={img.id}>
+            <Button 
+             title="🗑" 
+             style={{ 
+              flex: 1,
+              flexDirection:'row',
+              position:'absolute',
+              bottom:10,
+              alignSelf: "center",
+              justifyContent: "space-between",
+              backgroundColor: "transparent",
+              borderWidth: 0.5,
+              borderRadius: 20 
+            }} 
+            onPress={()=>{console.log("button")}}/>
+          </ImageBackground>
+        </TouchableHighlight>)
       })}
     </View>)
   }
   function renderEmpty(){
     return (<View style={styles.image_row} key={0} style={styles.image_empty_container}>
-      <Text style={styles.image_view_text}>- No Data at the moment -</Text>
+      <Text style={styles.image_view_text}>- No image -</Text>
     </View>)
   }
   function renderEnd(){
-    if(params.img.length){
+    if(params.imgs.length){
       return (<View style={styles.image_row} key={0} style={styles.image_empty_container}>
-        <Text style={styles.image_view_text}>- No more articles at the moment -</Text>
+        <Text style={styles.image_view_text}>- No more images -</Text>
       </View>)
     }else{ return null }
   }
@@ -71,13 +69,14 @@ const SimplePhotoSelector = ({ route, navigation }) => {
       <FlatList 
         style={styles.content} 
         data={imageTable}
+        keyExtractor={(item, i) => { return `img_view_${i}` }}
         renderItem={renderNextPage}
         ListFooterComponent={renderEnd}
         ListEmptyComponent={renderEmpty}
         onEndReachedThreshold={0}
         onEndReached={() => { setPage(page + 1) }}
       />
-      <Text style={styles.footer}>{params.img.length} Photos | 0 Selected</Text>
+      <Text style={styles.footer}>{params.imgs.length} Photos | 0 Selected</Text>
     </View>
   );
 };
@@ -105,9 +104,14 @@ const styles = StyleSheet.create({
   image_view_text: {
     color: 'grey',
   },
+  image: {
+    flex: 1,
+    width: (Dimensions.get('window').width/2),
+    height: (Dimensions.get('window').height/3),
+  },
   footer: {
     fontSize: 18, 
     textAlign: 'center', 
     color: 'grey'
-  }
+  },
 })

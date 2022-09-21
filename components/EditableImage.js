@@ -12,7 +12,7 @@ export default function EditableImage(props) {
   }, [ props.image_id ])
   return (
     <View style={styles.overview}>
-      <Image source={ImageSource} style={styles.image} key={props.image_id}/>
+      <Image source={{ImageSource}} style={styles.image} key={props.image_id} />
     </View>
   );
 }
@@ -20,12 +20,12 @@ const styles = StyleSheet.create({
   overview: {
     backgroundColor: "#FFFFFF",
     width: (Dimensions.get('window').width/2),
-    height: (Dimensions.get('window').width/2),
+    height: (Dimensions.get('window').height/3),
     justifyContent: 'center',
     alignItems: 'center',
   },
   image: {
     width: (Dimensions.get('window').width/2),
-    height: (Dimensions.get('window').width/2),
+    height: (Dimensions.get('window').height/3),
   }
 });

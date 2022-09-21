@@ -30,13 +30,14 @@ export default function Main({ route, navigation }) {
       mediaType: "photo"
     })
     .then(async (x) => { 
-      setImage({ total:x.totalCount, processed:0 })
-      for(let i=0; i<100; i++){
-      // for(let i=0; i<x.totalCount; i++){
+      // let total = x.totalCount
+      let total = 200
+      setImage({ total:total, processed:0 })
+      for(let i=0; i<total; i++){
         await FileSystem.copyAsync({ from: x.assets[i].uri, to: FileSystem.cacheDirectory })
         const dirInfo = await FileSystem.getInfoAsync(FileSystem.cacheDirectory)
         x.assets[i].size = dirInfo.size
-        setImage({ total:x.totalCount, processed:i+1 })
+        setImage({ total:total, processed:i+1 })
       }
       x.assets = (x.assets)
         .filter((y) => { return y.size })
@@ -46,6 +47,7 @@ export default function Main({ route, navigation }) {
             size: y.size,
             id: y.id,
             mediaSubtypes: y.mediaSubtypes,
+            uri: y.uri,
           }
         })
       // console.log("============", x.totalCount, x.assets[0]) 
@@ -82,8 +84,8 @@ export default function Main({ route, navigation }) {
               />
               <Text style={styles.card_text}>Total: {image.total}</Text>
               <Text style={styles.card_text}>Scanning: {image.processed} / {image.total} ({parseInt(image.processed/image.total*100)}%)</Text>
-              <Text style={styles.card_text}>Estimated Time: {parseInt(image.total*50/(60*1000))}min</Text>
-              <Text style={styles.card_text}>Speed: 50ms</Text>
+              <Text style={styles.card_text}>Estimated Time: {parseInt(image.total*60/(60*1000))}min</Text>
+              <Text style={styles.card_text}>Speed: 60ms</Text>
               <Button onPress={cancel} title="Cancel"/>
             </View>)
           : (
