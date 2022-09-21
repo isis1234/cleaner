@@ -24,11 +24,11 @@ const SimpleImageSelector = ({ route, navigation }) => {
       if(col.length){ table.push(col) }
     }
     if(table.length>1){ setImageTable(imageTable.concat(table)) }
-  }, [ params.imgss, page ])
+  }, [ params.imgs, page ])
   function routeImageDetail(img){ 
     navigation.navigate('ImageDetail', { 
       img,
-      screen_title: img.id
+      // screen_title: img.id
     }) 
   }
 

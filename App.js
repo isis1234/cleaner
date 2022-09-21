@@ -44,7 +44,7 @@ export default function App() {
         component={SimpleImageSelector}
         options={({route}) => { 
           return {
-          title: route.params?route.params.screen_title : "Photo Selector", //Set Header Title
+          title: route.params && route.params.screen_title?route.params.screen_title : "Photo Selector", //Set Header Title
           headerStyle: {
             backgroundColor: '#3498DB', //Set Header color
           },
@@ -57,7 +57,7 @@ export default function App() {
         component={ImageDetail}
         options={({route}) => { 
           return {
-          title: route.params?route.params.screen_title : "Detail", //Set Header Title
+          title: route.params && route.params.screen_title?route.params.screen_title : "Preview", //Set Header Title
           headerStyle: {
             backgroundColor: '#3498DB', //Set Header color
           },

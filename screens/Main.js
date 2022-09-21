@@ -45,7 +45,8 @@ export default function Main({ route, navigation }) {
         .map((y) => { 
           return {
             size: y.size,
-            id: y.id,
+            width: y.width, height: y.height,
+            creationTime: y.creationTime,
             mediaSubtypes: y.mediaSubtypes,
             uri: y.uri,
           }
