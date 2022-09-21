@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableHighlight } from 'react-native';
 import { Card } from 'react-native-paper';
-import * as MediaLibrary from 'expo-media-library';
 
 const Dashboard = ({ route, navigation }) => {
   let { params } = route
@@ -10,19 +9,19 @@ const Dashboard = ({ route, navigation }) => {
   const [screenshotImage, setScreenshotImage] = useState([])
 
   function routeLowest(){ 
-    navigation.navigate('SimplePhotoSelector', { 
+    navigation.navigate('SimpleImageSelector', { 
       imgs: params.lowest_size, 
       screen_title: "Top 100 Lowest" 
     }) 
   }
   function routeLargest(){ 
-    navigation.navigate('SimplePhotoSelector', { 
+    navigation.navigate('SimpleImageSelector', { 
       imgs: params.largest_size, 
       screen_title: "Top 100 Largest" 
     }) 
   }
   function routeScreenshots(){ 
-    navigation.navigate('SimplePhotoSelector', { 
+    navigation.navigate('SimpleImageSelector', { 
       imgs: params.screenshot, 
       screen_title: "Screenshots" 
     }) 

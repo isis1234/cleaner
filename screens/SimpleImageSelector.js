@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ImageBackground, FlatList, Dimensions, TouchableHighlight, Button } from 'react-native';
 import { Card } from 'react-native-paper';
-import * as MediaLibrary from 'expo-media-library';
 import EditableImage from '../components/EditableImage';
 import { AntDesign } from '@expo/vector-icons';
 
-const SimplePhotoSelector = ({ route, navigation }) => {
+const SimpleImageSelector = ({ route, navigation }) => {
   let { params } = route
   const [imageTable, setImageTable] = useState([[]])
   const [page, setPage] = useState(1)
@@ -26,30 +25,40 @@ const SimplePhotoSelector = ({ route, navigation }) => {
     }
     if(table.length>1){ setImageTable(imageTable.concat(table)) }
   }, [ params.imgss, page ])
+  function routeImageDetail(img){ 
+    navigation.navigate('ImageDetail', { 
+      img,
+      screen_title: img.id
+    }) 
+  }
 
   function renderNextPage(x){
     return (<View style={styles.image_row} key={x.index}>
       {(x.item).map((img) => {
-        return (<TouchableHighlight activeOpacity={0.6} underlayColor="#999999" onPress={()=>{console.log("image")}} style={{ flex: 1 }}>
+        return (<TouchableHighlight activeOpacity={0.6} underlayColor="#999999" onPress={()=>{ routeImageDetail(img)} } style={{ flex: 1 }}>
           <ImageBackground source={{ uri: img.uri, cache: 'only-if-cached' }} style={styles.image} key={img.id}>
-            <Button 
-             title="🗑" 
-             style={{ 
-              flex: 1,
-              flexDirection:'row',
-              position:'absolute',
-              bottom:10,
-              alignSelf: "center",
-              justifyContent: "space-between",
-              backgroundColor: "transparent",
-              borderWidth: 0.5,
-              borderRadius: 20 
-            }} 
-            onPress={()=>{console.log("button")}}/>
+            { renderBinButton(img) }
           </ImageBackground>
         </TouchableHighlight>)
       })}
     </View>)
+  }
+  function renderBinButton(img){
+    return (
+      <TouchableHighlight activeOpacity={0.6} underlayColor="#999999" onPress={()=>{console.log("bin")}} style={{ 
+        flex: 1,
+        flexDirection:'row',
+        position:'absolute',
+        bottom:10,
+        marginLeft: 10,
+        justifyContent: "space-between",
+        backgroundColor: "transparent",
+        borderWidth: 0.5,
+        borderRadius: 20,
+      }} >
+        <ImageBackground source={require("../assets/bin.png")} style={{ width: 30, height: 30 }} />
+      </TouchableHighlight>
+    )
   }
   function renderEmpty(){
     return (<View style={styles.image_row} key={0} style={styles.image_empty_container}>
@@ -69,7 +78,7 @@ const SimplePhotoSelector = ({ route, navigation }) => {
       <FlatList 
         style={styles.content} 
         data={imageTable}
-        keyExtractor={(item, i) => { return `img_view_${i}` }}
+        keyExtractor={(item, i) => { return `img_page${page}_row${i}` }}
         renderItem={renderNextPage}
         ListFooterComponent={renderEnd}
         ListEmptyComponent={renderEmpty}
@@ -80,7 +89,7 @@ const SimplePhotoSelector = ({ route, navigation }) => {
     </View>
   );
 };
-export default SimplePhotoSelector;
+export default SimpleImageSelector;
 
 const styles = StyleSheet.create({
   overview: {

@@ -7,7 +7,8 @@ import { NavigationContainer } from '@react-navigation/native'
 
 import Main from './screens/Main';
 import Dashboard from './screens/Dashboard';
-import SimplePhotoSelector from './screens/SimplePhotoSelector';
+import SimpleImageSelector from './screens/SimpleImageSelector';
+import ImageDetail from './screens/ImageDetail';
 
 export default function App() {
   const Stack = createStackNavigator()
@@ -39,11 +40,24 @@ export default function App() {
         }}
       />
       <Stack.Screen 
-        name="SimplePhotoSelector" 
-        component={SimplePhotoSelector}
+        name="SimpleImageSelector" 
+        component={SimpleImageSelector}
         options={({route}) => { 
           return {
           title: route.params?route.params.screen_title : "Photo Selector", //Set Header Title
+          headerStyle: {
+            backgroundColor: '#3498DB', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: styles.screen_header_title,
+        }}}
+      />
+      <Stack.Screen 
+        name="ImageDetail" 
+        component={ImageDetail}
+        options={({route}) => { 
+          return {
+          title: route.params?route.params.screen_title : "Detail", //Set Header Title
           headerStyle: {
             backgroundColor: '#3498DB', //Set Header color
           },
