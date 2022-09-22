@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ImageBackground, FlatList, Dimensions, TouchableHighlight, Button } from 'react-native';
 import { Card } from 'react-native-paper';
-import EditableImage from '../components/EditableImage';
 import { AntDesign } from '@expo/vector-icons';
 
 const SimpleImageSelector = ({ route, navigation }) => {
@@ -25,17 +24,12 @@ const SimpleImageSelector = ({ route, navigation }) => {
     }
     if(table.length>1){ setImageTable(imageTable.concat(table)) }
   }, [ params.imgs, page ])
-  function routeImageDetail(img){ 
-    navigation.navigate('ImageDetail', { 
-      img,
-      // screen_title: img.id
-    }) 
-  }
+  function routeImageDetail(img){ navigation.navigate('ImageDetail', { img }) }
 
   function renderNextPage(x){
-    return (<View style={styles.image_row} key={x.index}>
-      {(x.item).map((img) => {
-        return (<TouchableHighlight activeOpacity={0.6} underlayColor="#999999" onPress={()=>{ routeImageDetail(img)} } style={{ flex: 1 }}>
+    return (<View style={styles.image_row} key={`page${x.index}`}>
+      {(x.item).map((img, i) => {
+        return (<TouchableHighlight activeOpacity={0.6} underlayColor="#999999" onPress={()=>{ routeImageDetail(img)} } style={{ flex: 1 }} key={`page${x.index}_image${i}`}>
           <ImageBackground source={{ uri: img.uri, cache: 'only-if-cached' }} style={styles.image} key={img.id}>
             { renderBinButton(img) }
           </ImageBackground>
@@ -56,7 +50,7 @@ const SimpleImageSelector = ({ route, navigation }) => {
         borderWidth: 0.5,
         borderRadius: 20,
       }} >
-        <ImageBackground source={require("../assets/bin.png")} style={{ width: 30, height: 30 }} />
+        <ImageBackground source={require("../assets/bin.png")} style={{ width: 44, height: 44 }} />
       </TouchableHighlight>
     )
   }

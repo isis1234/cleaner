@@ -6,10 +6,11 @@ import * as FileSystem from 'expo-file-system';
 
 export default function Main({ route, navigation }) {
   const [BTNstart, setBTNstart] = useState(false)
+  const [isDEV, setIsDEV] = useState(true)
   const [image, setImage] = useState({ total:0, processed:0 })
   const [preview, setPreview] = useState(require('../assets/TJ276.png'))
   const [status, requestPermission] = MediaLibrary.usePermissions();
-  const onPress = () => setBTNstart(!BTNstart)
+  const onPress = () => { if(!BTNstart) setBTNstart(true) }
   const cancel = () => {
     setBTNstart(false)
     setPreview(require('../assets/TJ276.png'))
@@ -20,7 +21,9 @@ export default function Main({ route, navigation }) {
   }
 
   // Start process
-  useEffect(() => { if(BTNstart){
+  useEffect(() => {   
+    if(!BTNstart) return
+  
     console.log("Start Process", new Date()*1)
     requestPermission()
     if(status.accessPrivileges == "none") return;
@@ -30,10 +33,10 @@ export default function Main({ route, navigation }) {
       mediaType: "photo"
     })
     .then(async (x) => { 
-      // let total = x.totalCount
-      let total = 200
+      let total = isDEV? 200 : x.totalCount
       setImage({ total:total, processed:0 })
       for(let i=0; i<total; i++){
+        if(BTNstart==false) break;
         await FileSystem.copyAsync({ from: x.assets[i].uri, to: FileSystem.cacheDirectory })
         const dirInfo = await FileSystem.getInfoAsync(FileSystem.cacheDirectory)
         x.assets[i].size = dirInfo.size
@@ -61,12 +64,12 @@ export default function Main({ route, navigation }) {
       setBTNstart(false)
       setPreview(require('../assets/TJ276.png'))
     })
-  } }, [ BTNstart ])
+  }, [ BTNstart ])
   return renderView()
   
   function renderView(){
     return (<View style={styles.overview}>
-      <View>
+      <View style={styles.content}>
         <View style={styles.logo_container}>
           <TouchableOpacity onPress={onPress}>
             <Image style={styles.logo_image} source={preview} />
@@ -74,7 +77,6 @@ export default function Main({ route, navigation }) {
         </View>
 
         <Card style={styles.card_container}>
-          {/*<Text style={styles.card_title}>Summary</Text>*/}
           { (BTNstart)?
             (<View>
               <ActivityIndicator
@@ -87,15 +89,18 @@ export default function Main({ route, navigation }) {
               <Text style={styles.card_text}>Scanning: {image.processed} / {image.total} ({parseInt(image.processed/image.total*100)}%)</Text>
               <Text style={styles.card_text}>Estimated Time: {parseInt(image.total*60/(60*1000))}min</Text>
               <Text style={styles.card_text}>Speed: 60ms</Text>
-              <Button onPress={cancel} title="Cancel"/>
             </View>)
           : (
-            <Text style={styles.card_text}>Press image to start scanning.</Text>
+            <View>
+              <Text style={styles.card_text}>Press image to start scanning.</Text>
+              <Button onPress={()=>{setIsDEV(!isDEV)}} title={isDEV?"Environment: Development" : "Environment: Production"} style={styles.card_text}/>
+            </View>
           )}
         </Card>
       </View>
 
-      <View style={styles.footer_container}>
+      {/*<View style={styles.footer_container}>*/}
+      <View>
         <Text style={styles.footerText}>© 2022 - Made with ❤️ by Yu.</Text>
         <Text style={styles.footerText}>https://isis1234.github.io/isis1234_portfolio</Text>
       </View>
@@ -107,6 +112,9 @@ const styles = StyleSheet.create({
   overview: {
     flex: 1, 
     padding: 16
+  },
+  content: {
+    flex: 1
   },
   logo_container: {
     alignItems: 'center',
