@@ -42,8 +42,7 @@ export default function App() {
       <Stack.Screen 
         name="SimpleImageSelector" 
         component={SimpleImageSelector}
-        options={({route}) => { 
-          return {
+        options={({route}) => {   return {
           title: route.params && route.params.screen_title?route.params.screen_title : "Photo Selector", //Set Header Title
           headerStyle: {
             backgroundColor: '#3498DB', //Set Header color
@@ -55,8 +54,7 @@ export default function App() {
       <Stack.Screen 
         name="ImageDetail" 
         component={ImageDetail}
-        options={({route}) => { 
-          return {
+        options={({route}) => { return {
           title: route.params && route.params.screen_title?route.params.screen_title : "Preview", //Set Header Title
           headerStyle: {
             backgroundColor: '#3498DB', //Set Header color

@@ -7,6 +7,7 @@ const SimpleImageSelector = ({ route, navigation }) => {
   let { params } = route
   const [imageTable, setImageTable] = useState([[]])
   const [page, setPage] = useState(1)
+  const [selectedImageArr, setSelectedImageArr] = useState([])
 
   useEffect(()=>{
     let table = []
@@ -29,7 +30,7 @@ const SimpleImageSelector = ({ route, navigation }) => {
   function renderNextPage(x){
     return (<View style={styles.image_row} key={`page${x.index}`}>
       {(x.item).map((img, i) => {
-        return (<TouchableHighlight activeOpacity={0.6} underlayColor="#999999" onPress={()=>{ routeImageDetail(img)} } style={{ flex: 1 }} key={`page${x.index}_image${i}`}>
+        return (<TouchableHighlight activeOpacity={0.6} underlayColor="#999999" onPress={()=>{ routeImageDetail(img)} } style={styles.content} key={`page${x.index}_image${i}`}>
           <ImageBackground source={{ uri: img.uri, cache: 'only-if-cached' }} style={styles.image} key={img.id}>
             { renderBinButton(img) }
           </ImageBackground>
@@ -39,17 +40,20 @@ const SimpleImageSelector = ({ route, navigation }) => {
   }
   function renderBinButton(img){
     return (
-      <TouchableHighlight activeOpacity={0.6} underlayColor="#999999" onPress={()=>{console.log("bin")}} style={{ 
-        flex: 1,
-        flexDirection:'row',
-        position:'absolute',
-        bottom:10,
-        marginLeft: 10,
-        justifyContent: "space-between",
-        backgroundColor: "#EEEEEE",
-        borderWidth: 0.5,
-        borderRadius: 20,
-      }} >
+      <TouchableHighlight 
+        activeOpacity={0.6} 
+        underlayColor="#999999" 
+        onPress={()=>{
+          if(selectedImageArr.includes(img.uri)){
+            setSelectedImageArr(selectedImageArr.filter((x) => { return x!=img.uri }))
+          }else{
+            setSelectedImageArr(selectedImageArr.concat(img.uri))
+          }
+        }} 
+        style={{
+          ...styles.bin_button,
+          backgroundColor: selectedImageArr.includes(img.uri)? "#FF9494" : "#EEEEEE"
+        }} >
         <ImageBackground source={require("../assets/bin.png")} style={{ width: 44, height: 44 }} />
       </TouchableHighlight>
     )
@@ -117,4 +121,15 @@ const styles = StyleSheet.create({
     textAlign: 'center', 
     color: 'grey'
   },
+  bin_button: { 
+    flex: 1,
+    flexDirection:'row',
+    position:'absolute',
+    bottom:10,
+    marginLeft: 10,
+    justifyContent: "space-between",
+    backgroundColor: "#EEEEEE",
+    borderWidth: 0.5,
+    borderRadius: 20,
+  }
 })
