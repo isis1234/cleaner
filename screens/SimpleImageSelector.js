@@ -46,7 +46,7 @@ const SimpleImageSelector = ({ route, navigation }) => {
         bottom:10,
         marginLeft: 10,
         justifyContent: "space-between",
-        backgroundColor: "transparent",
+        backgroundColor: "#EEEEEE",
         borderWidth: 0.5,
         borderRadius: 20,
       }} >

@@ -87,8 +87,8 @@ export default function Main({ route, navigation }) {
               />
               <Text style={styles.card_text}>Total: {image.total}</Text>
               <Text style={styles.card_text}>Scanning: {image.processed} / {image.total} ({parseInt(image.processed/image.total*100)}%)</Text>
-              <Text style={styles.card_text}>Estimated Time: {parseInt(image.total*60/(60*1000))}min</Text>
-              <Text style={styles.card_text}>Speed: 60ms</Text>
+              <Text style={styles.card_text}>Estimated Time: {parseInt(image.total*55/(60*1000))}min</Text>
+              <Text style={styles.card_text}>Speed: 55ms</Text>
             </View>)
           : (
             <View>
